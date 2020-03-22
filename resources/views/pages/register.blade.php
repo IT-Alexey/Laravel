@@ -1,4 +1,5 @@
 @extends('layout')
+
 @section('content')
 <!--main content start-->
 <div class="main-content">
@@ -7,12 +8,12 @@
             <div class="col-md-8">
 
                 <div class="leave-comment mr0"><!--leave comment-->
-
+                    
                     <h3 class="text-uppercase">Register</h3>
                     @include('admin.errors')
                     <br>
                     <form class="form-horizontal contact-form" role="form" method="post" action="/register">
-                        {{csrf_field()}}
+                    {{csrf_field()}}
                         <div class="form-group">
                             <div class="col-md-12">
                                 <input type="text" class="form-control" id="name" name="name"
@@ -36,10 +37,9 @@
                     </form>
                 </div><!--end leave comment-->
             </div>
-            @include('pages.sidebar')
+            @include('pages._sidebar')
         </div>
     </div>
 </div>
 <!-- end main content-->
-
 @endsection

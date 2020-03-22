@@ -6,16 +6,17 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class TagsController extends Controller {
-
+class TagsController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $tags = Tag::all();
-        return view('admin.tags.index', ['tags' => $tags]);
+        return view('admin.tags.index', ['tags'=>$tags]);
     }
 
     /**
@@ -23,7 +24,8 @@ class TagsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         return view('admin.tags.create');
     }
 
@@ -33,23 +35,26 @@ class TagsController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-
-        $this->validate($request, ['title' => 'required']);   // обязательно
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' =>  'required' //обязательно
+        ]);
 
         Tag::create($request->all());
         return redirect()->route('tags.index');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $tag = Tag::find($id);
-        return view('admin.tags.edit', ['tag' => $tag]);
+        return view('admin.tags.edit', ['tag'=>$tag]);
     }
 
     /**
@@ -59,13 +64,16 @@ class TagsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        $this->validate($request, ['title' => 'required']
-        );
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' =>  'required' //обязательно
+        ]);
 
-//        dd($request->all());
         $tag = Tag::find($id);
+
         $tag->update($request->all());
+
         return redirect()->route('tags.index');
     }
 
@@ -75,9 +83,9 @@ class TagsController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         Tag::find($id)->delete();
         return redirect()->route('tags.index');
     }
-
 }

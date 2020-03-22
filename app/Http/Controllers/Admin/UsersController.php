@@ -7,16 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller {
-
+class UsersController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $users = User::all();
-        return view('admin.users.index', ['users' => $users]);
+        return view('admin.users.index', ['users'   =>  $users]);
     }
 
     /**
@@ -24,7 +25,8 @@ class UsersController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         return view('admin.users.create');
     }
 
@@ -34,13 +36,15 @@ class UsersController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'avatar' => 'nullable|image'
+            'name'  =>  'required',
+            'email' =>  'required|email|unique:users',
+            'password'  =>  'required',
+            'avatar'    =>  'nullable|image'
         ]);
+
         $user = User::add($request->all());
         $user->generatePassword($request->get('password'));
         $user->uploadAvatar($request->file('avatar'));
@@ -49,22 +53,13 @@ class UsersController extends Controller {
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $user = User::find($id);
         return view('admin.users.edit', compact('user'));
     }
@@ -76,20 +71,24 @@ class UsersController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $user = User::find($id);
+
         $this->validate($request, [
-            'name' => 'required',
-            'email' => [
+            'name'  =>  'required',
+            'email' =>  [
                 'required',
                 'email',
                 Rule::unique('users')->ignore($user->id),
             ],
-            'avatar' => 'nullable|image'
+            'avatar'    =>  'nullable|image'
         ]);
-        $user->edit($request->all());
+
+        $user->edit($request->all()); //name,email
         $user->generatePassword($request->get('password'));
         $user->uploadAvatar($request->file('avatar'));
+
         return redirect()->route('users.index');
     }
 
@@ -99,9 +98,10 @@ class UsersController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         User::find($id)->remove();
+
         return redirect()->route('users.index');
     }
-
 }
